@@ -1,11 +1,18 @@
-interface User {
+// 用户详情 DTO
+export interface User {
   id: string;
   name: string;
   phone: string;
   email: string;
+  password: string;
   createdAt: Date;
 }
 
-export {
-  User,
-};
+// 添加用户 DTO
+export interface CreateUserDTO {
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  role: string;
+}

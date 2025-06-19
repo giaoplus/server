@@ -1,7 +1,12 @@
 import Router from 'koa-router';
-import userController from './user.controller';
+import * as userController from './user.controller';
+import { AppContext } from '@/types/context';
+import { Context } from 'koa';
+import { jwtAuth } from '../auth';
 
-const userRouter = new Router({ prefix: '/api/user'});
+const userRouter = new Router<Context, AppContext>({ prefix: '/api/user'});
+
+userRouter.use(jwtAuth(['user', 'editor', 'admin']))
 
 userRouter
   .post('/', userController.createUser)

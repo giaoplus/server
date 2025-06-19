@@ -1,6 +1,5 @@
 import postgres from "postgres";
 import config from "@/config";
-console.log(config)
 
 const sql = postgres({
   host: config.db.host,
