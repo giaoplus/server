@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { JwtPayload, TokenResponse, RegisterDTO } from './auth.types';
-import { getUserById, createUser } from '@/modules/user/user.service';
+import { getUserByPhone, createUser } from '@/modules/user/user.service';
 import config from '@/config';
 
 // 密码加密
@@ -11,14 +11,14 @@ export class AuthService {
   // 生成访问令牌
   static generateAccessToken(payload: JwtPayload): string {
     return jwt.sign(payload, config.auth.jwtSecret, {
-      expiresIn: config.auth.accessTokenExpiry
+      expiresIn: config.auth.accessTokenExpirySeconds,
     });
   }
 
   // 生成刷新令牌
   static generateRefreshToken(payload: JwtPayload): string {
     return jwt.sign(payload, config.auth.jwtSecret, {
-      expiresIn: config.auth.refreshTokenExpiry
+      expiresIn: config.auth.accessTokenExpirySeconds
     });
   }
 
@@ -34,7 +34,7 @@ export class AuthService {
 
   // 用户登录
   static async login(phone: string, password: string): Promise<TokenResponse> {
-    const user = await getUserById(phone);
+    const user = await getUserByPhone(phone);
     if (!user) {
       throw new Error('用户不存在');
     }
@@ -59,12 +59,13 @@ export class AuthService {
 
   // 用户注册
   static async register(data: RegisterDTO): Promise<TokenResponse> {
-    const existingUser = await getUserById(data.email);
+    const existingUser = await getUserByPhone(data.phone);
     if (existingUser) {
-      throw new Error('邮箱已被注册');
+      throw new Error('手机号已被注册');
     }
 
     const hashedPassword = await AuthService.hashPassword(data.password);
+    console.log(hashedPassword)
     const user = await createUser({
       ...data,
       password: hashedPassword,
@@ -89,7 +90,7 @@ export class AuthService {
     try {
       const decoded = jwt.verify(refreshToken, config.auth.jwtSecret) as JwtPayload;
       
-      const user = await getUserById(decoded.userId);
+      const user = await getUserByPhone(decoded.phone);
       if (!user) {
         throw new Error('用户不存在');
       }

@@ -1,4 +1,4 @@
-import { authRouter } from './auth.route';
+import authRouter from './auth.route';
 export { jwtAuth, currentUser } from './auth.middleware';
 
 // 导出所有内容

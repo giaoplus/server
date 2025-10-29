@@ -53,7 +53,8 @@ export const currentUser = async (ctx: AppContext, next: () => Promise<any>) => 
         role: decoded.role
       };
     } catch (error) {
-      // 令牌无效，但不阻止请求继续
+      // 令牌验证失败，不设置用户信息
+      return ctx.error(403, '无访问权限');
     }
   }
   

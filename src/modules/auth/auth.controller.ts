@@ -1,7 +1,9 @@
+import jwt from 'jsonwebtoken';
 import { AppContext } from '@/types/context';
 import { AuthService } from './auth.service';
-import { LoginDTO, RegisterDTO, TokenResponse } from './auth.types';
+import { LoginDTO, RegisterDTO, JwtPayload, UserDTO } from './auth.types';
 import { getUserById } from '../user/user.service';
+import config from '@/config';
 
 export class AuthController {
   // 用户登录
@@ -30,15 +32,33 @@ export class AuthController {
 
   // 刷新访问令牌
   static async refreshToken(ctx: AppContext) {
-    const { refreshToken } = ctx.request.body;
+    // 添加类型断言，明确请求体结构
+    const requestBody = ctx.request.body as { refreshToken?: string };
+    const { refreshToken } = requestBody;
     
     if (!refreshToken) {
       return ctx.error(400, '缺少刷新令牌');
     }
     
     try {
-      const tokens = await AuthService.refreshToken(refreshToken);
-      ctx.success(tokens);
+      const decoded = jwt.verify(refreshToken, config.auth.jwtSecret) as JwtPayload;
+      
+      const user = await getUserById(decoded.userId);
+      if (!user) {
+        throw new Error('用户不存在');
+      }
+
+      const payload: JwtPayload = {
+        userId: user.id,
+        phone: user.phone,
+        role: user.role
+      };
+
+      return {
+        accessToken: AuthService.generateAccessToken(payload),
+        refreshToken: AuthService.generateRefreshToken(payload),
+        expiresIn: config.auth.accessTokenExpirySeconds
+      };
     } catch (error: any) {
       ctx.error(401, error.message);
     }
@@ -58,7 +78,7 @@ export class AuthController {
       
       // 不返回密码
       const { password, ...userData } = user;
-      ctx.success(userData);
+      ctx.success(userData as UserDTO);
     } catch (error) {
       ctx.error(500, '获取用户信息失败');
     }

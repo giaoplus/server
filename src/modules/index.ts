@@ -1,8 +1,10 @@
 import { AppContext } from "@/types/context";
 import { DefaultState, DefaultContext } from "koa";
 import userRouter from "./user/user.route";
+import authRouter from "./auth/auth.route";
 
 export function registerModules(app: import("koa") <DefaultState, DefaultContext>) {
+  app.use(authRouter.routes()).use(authRouter.allowedMethods())
   app.use(userRouter.routes()).use(userRouter.allowedMethods())
   
   // 添加欢迎路由

@@ -1,9 +1,9 @@
 import { AppContext } from '@/types/context';
 import * as userService from './user.service';
-import { User } from './user.types';
+import { User, CreateUserDTO } from './user.types';
 
 export async function createUser(ctx: AppContext) {
-  const user = ctx.request.body as User;
+  const user = ctx.request.body as CreateUserDTO;
   const newUser = await userService.createUser(user);
   ctx.success(newUser, 200);
 }

@@ -3,7 +3,7 @@ dotenv.config();
 
 // 认证配置
 export const authConfig = {
-  jwtSecret: process.env.JWT_SECRET || 'your-strong-secret-key-here',
+  jwtSecret: process.env.SECRET_KEY || 'your-strong-secret-key-here',
   accessTokenExpiry: '15m', // 访问令牌有效期
   refreshTokenExpiry: '7d', // 刷新令牌有效期
   accessTokenExpirySeconds: 15 * 60, // 15分钟（秒数）
