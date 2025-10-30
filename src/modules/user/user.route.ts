@@ -11,13 +11,6 @@ userRouter.use(jwtAuth(['user', 'editor', 'admin']))
 
 /**
  * @swagger
- * tags:
- *   name: User
- *   description: 用户管理
- */
-
-/**
- * @swagger
  * /api/user:
  *   post:
  *     summary: 创建用户
@@ -65,47 +58,6 @@ userRouter.post('/', userController.createUser)
 
 /**
  * @swagger
- * /api/user/{id}:
- *   get:
- *     summary: 查询用户信息
- *     tags: [User]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: 用户ID
- *     responses:
- *       200:
- *         description: 用户列表
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   name:
- *                     type: string
- *                   phone:
- *                     type: string
- *                   email:
- *                     type: string
- *                   createdAt:
- *                     type: string
- *                     format: date-time
- *                   role:
- *                     type: string
- *       400:
- *         description: 获取失败
- */
-userRouter.get('/:id', userController.getUser)
-
-/**
- * @swagger
  * /api/user:
  *   put:
  *     summary: 更新用户信息
@@ -146,6 +98,47 @@ userRouter.get('/:id', userController.getUser)
  *         description: 更新失败
  */
 userRouter.put('/:id', userController.updateUser)
+
+/**
+ * @swagger
+ * /api/user/{id}:
+ *   get:
+ *     summary: 查询用户信息
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: 用户ID
+ *     responses:
+ *       200:
+ *         description: 用户列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   phone:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                   role:
+ *                     type: string
+ *       400:
+ *         description: 获取失败
+ */
+userRouter.get('/:id', userController.getUser)
 
 /**
  * @swagger

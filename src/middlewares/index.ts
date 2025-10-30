@@ -1,3 +1,4 @@
+import cors from './cors';
 import loggerMiddleware from './loggerMiddleware';
 import errorHandlerMiddleware from './errorHandler';
 import bodyParser from 'koa-bodyparser';
@@ -7,17 +8,11 @@ import { currentUser } from '@/modules/auth';
 
 // 应用所有中间件
 export const applyMiddlewares = (app: import("koa") <DefaultState, DefaultContext>) => {
-  // 日志中间件
-  app.use(loggerMiddleware)
-
-  // 当前中户
-  app.use(currentUser)
+  // 跨域处理
+  app.use(cors)
   
   // Body解析器
   app.use(bodyParser());
-  
-  // 错误处理中间件
-  app.use(errorHandlerMiddleware);
   
   // 响应格式化中间件
   app.use(async (ctx: AppContext, next: () => Promise<any>) => {
@@ -42,4 +37,13 @@ export const applyMiddlewares = (app: import("koa") <DefaultState, DefaultContex
     
     await next();
   });
+
+  // 当前中户
+  app.use(currentUser)
+  
+  // 日志中间件
+  app.use(loggerMiddleware)
+  
+  // 错误处理中间件
+  app.use(errorHandlerMiddleware);
 };

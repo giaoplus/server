@@ -16,12 +16,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:{port}',
-        variables: {
-          port: {
-            default: '3000'
-          }
-        }
+        url: '/',
       }
     ],
     components: {

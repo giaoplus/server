@@ -9,8 +9,13 @@ export async function createUser(ctx: AppContext) {
 }
 export async function getUser(ctx: AppContext) {
   const userId = ctx.params.id;
+  if (!userId) {
+    ctx.error(400, '用户ID不能为空');
+    return;
+  }
   const user = await userService.getUserById(userId);
-  ctx.success(user, 200);
+  const { password, ...userData } = user
+  ctx.success(userData, 200);
 }
 export async function updateUser (ctx: AppContext) {
   const userId = ctx.params.id;

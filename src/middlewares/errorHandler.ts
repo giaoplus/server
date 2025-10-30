@@ -6,9 +6,12 @@ const errorHandler = async (ctx: Context, next: Next) => {
   } catch (err: any) {
     ctx.status = err.status || 500;
     ctx.body = {
-      message: err.message,
-      stack: err.stack,
-    };
+      success: false,
+      error: {
+        message: err.message,
+        details: err.details || err.stack
+      }
+    }
   }
 }
 

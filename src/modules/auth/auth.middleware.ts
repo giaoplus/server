@@ -31,11 +31,11 @@ export const jwtAuth = (roles: UserRole[] = []) => {
         phone: decoded.phone,
         role: decoded.role
       };
-
-      await next();
     } catch (error) {
       return ctx.error(401, '无效或过期的令牌');
     }
+
+    await next();
   };
 };
 
@@ -54,7 +54,7 @@ export const currentUser = async (ctx: AppContext, next: () => Promise<any>) => 
       };
     } catch (error) {
       // 令牌验证失败，不设置用户信息
-      return ctx.error(403, '无访问权限');
+      return ctx.error(403, '无访问权限', error);
     }
   }
   

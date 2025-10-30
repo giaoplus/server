@@ -12,7 +12,9 @@ applyMiddlewares(app)
 // 路由
 registerModules(app)
 // swagger 
-swaggerRouter(app)
+if (appConfig.env === 'development') {
+  swaggerRouter(app)
+}
 
 app.listen(appConfig.port, () => {
   console.log(`Server is running on port ${appConfig.port}`)

@@ -32,8 +32,8 @@ const authRouter = new Router<{}, AppContext>({ prefix: '/api/auth' });
  *               password:
  *                 type: string
  *             example:
- *               phone: "1234567890"
- *               password: "password123"
+ *               phone: "19999999999"
+ *               password: "123456"
  *     responses:
  *       200:
  *         description: 登录成功
