@@ -7,7 +7,7 @@ import { jwtAuth } from '../auth';
 
 const userRouter = new Router<Context, AppContext>({ prefix: '/api/user'});
 
-userRouter.use(jwtAuth(['user', 'editor', 'admin']))
+userRouter.use(jwtAuth(['user', 'system', 'admin']))
 
 /**
  * @swagger

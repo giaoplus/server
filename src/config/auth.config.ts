@@ -6,7 +6,7 @@ export const authConfig = {
   jwtSecret: process.env.SECRET_KEY || 'your-strong-secret-key-here',
   accessTokenExpiry: '15m', // 访问令牌有效期
   refreshTokenExpiry: '7d', // 刷新令牌有效期
-  accessTokenExpirySeconds: 15 * 60, // 15分钟（秒数）
+  accessTokenExpirySeconds: 2 * 60 * 60, // 两小时（秒数）
   
   // 安全设置
   passwordMinLength: 8,

@@ -40,4 +40,4 @@ export interface UserDTO {
 }
 
 // 用户角色类型
-export type UserRole = 'user' | 'admin' | 'editor';
+export type UserRole = 'user' | 'admin' | 'system';
